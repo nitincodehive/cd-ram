@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CD-RAM | Configure & Deploy - Robotics, Automation, Machinery</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #5046E5;
+            --secondary: #00F5FF;
+            --dark: #0B0C10;
+            --light: #F8F9FA;
+            --accent: #FF3D71;
+            --overlay: rgba(11, 12, 16, 0.7);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--dark) 0%, #1E1E2F 100%);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            transition: all 0.3s ease;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(80, 70, 229, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(80, 70, 229, 0.5);
+        }
+        
+        .hero {
+            background-image: url('/api/placeholder/1920/1080');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--overlay);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(11,12,16,0.6) 0%, rgba(11,12,16,0.9) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .service-card {
+            background-color: rgba(30, 30, 47, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100%;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(80, 70, 229, 0.3);
+        }
+        
+        .card-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .check-icon {
+            color: var(--secondary);
+            margin-right: 0.5rem;
+        }
+        
+        .glow {
+            text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+        }
+        
+        .form-input {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            color: var(--light);
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 2px rgba(0, 245, 255, 0.2);
+        }
+        
+        .social-icon {
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .nav-link {
+            position: relative;
+            color: var(--light);
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: 500;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                height: 80vh;
+            }
+            
+            .hero-overlay h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-opacity-80 bg-black backdrop-filter backdrop-blur-lg py-4 px-6">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold">
+                <span class="text-white">CD-</span><span class="text-secondary glow">RAM</span>
+            </div>
+            <div class="hidden md:flex">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-95 z-40 flex items-center justify-center hidden">
+        <div class="flex flex-col items-center space-y-8">
+            <a href="#about" class="text-xl nav-link mobile-link">About</a>
+            <a href="#services" class="text-xl nav-link mobile-link">Services</a>
+            <a href="#contact" class="text-xl nav-link mobile-link">Contact</a>
+            <button id="close-menu" class="mt-6 text-white">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero relative">
+        <div class="hero-overlay">
+            <p class="text-secondary uppercase tracking-wider mb-4" data-aos="fade-down">Configure & Deploy - Robotics, Automation, Machinery</p>
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight" data-aos="fade-up">
+                Deploy AI & Robotics <br>
+                <span class="text-secondary glow">With Ease</span>
+            </h1>
+            <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10" data-aos="fade-up" data-aos-delay="100">
+                Transforming traditional businesses with cutting-edge automation solutions
+            </p>
+            <div data-aos="fade-up" data-aos-delay="200">
+                <a href="#contact" class="btn-primary">Contact Us</a>
+            </div>
+            <div class="absolute bottom-10 left-0 right-0 text-center">
+                <p class="text-gray-400">Hero background: Futuristic automation facility</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-6 gradient-bg">
+        <div class="container mx-auto">
+            <div class="text-center max-w-4xl mx-auto" data-aos="fade-up">
+                <h2 class="text-4xl font-bold mb-3">About <span class="text-secondary glow">CD-RAM</span></h2>
+                <div class="w-24 h-1 bg-secondary mx-auto mb-8 rounded-full"></div>
+                <p class="text-lg text-gray-300 leading-relaxed mb-6">
+                    At CD-RAM, we bridge the gap between traditional business operations and cutting-edge AI & robotics solutions. Our mission is to empower businesses across industries to embrace automation confidently and cost-effectively, without the technical hurdles. We specialize in customizing and implementing advanced robotics and AI systems that seamlessly integrate with your existing workflows, boosting productivity while reducing operational costs. With our expert team of engineers and industry specialists, we transform complex technological challenges into practical, deployable solutions tailored specifically to your business needs.
+                </p>
+                <p class="text-lg text-gray-300 leading-relaxed">
+                    From initial consultation to full implementation and ongoing support, we're committed to ensuring your transition to automated processes is smooth, efficient, and maximizes your return on investment.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 px-6" style="background: linear-gradient(to bottom, var(--dark) 0%, #1E1E2F 100%);">
+        <div class="container mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl font-bold mb-3">Our <span class="text-secondary glow">Services</span></h2>
+                <div class="w-24 h-1 bg-secondary mx-auto mb-8 rounded-full"></div>
+                <p class="text-lg text-gray-300 max-w-3xl mx-auto">
+                    We offer comprehensive solutions to help your business successfully implement and benefit from AI and robotics technology.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Consultation Card -->
+                <div class="relative" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-card p-8 relative z-10 h-full flex flex-col">
+                        <div class="card-bg" style="background-image: url('/api/placeholder/600/800')"></div>
+                        <h3 class="text-2xl font-bold mb-2 text-secondary">Consultation</h3>
+                        <p class="text-gray-300 mb-6">Expert analysis and planning for your automation needs</p>
+                        <div class="space-y-3 mb-8 flex-grow">
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle check-icon mt-1"></i>
+                                <p>Business process assessment</p>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle check-icon mt-1"></i>
+                                <p>Technology compatibility evaluation</p>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle check-icon mt-1"></i>
+                                <p>Custom solution design</p>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle check-icon mt-1"></i>
+                                <p>Cost-benefit analysis</p>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle check-icon mt-1"></i>
+                                <p>Implementation roadmap</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Integration Card -->
+                <div class="relative" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-card p-8 relative z-10 h-full flex flex-col">
+                        <div class="card-bg" style="background-image: url('/api/placeholder/600/800')"></div>
+                        <h3 class="text-2xl font-bold mb-2 text-secondary">Integration</h3>
+                        <p class="text-gray-300 mb-6">Seamless implementation of AI and robotics solutions</p>
+                        <div class="space-y-3 mb-8 flex-grow">
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle check-icon mt-1"></i>
+                                <p>Hardware installation & setup</p>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle check-icon mt-1"></i>
+                                <p>Software deployment & configuration</p>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle check-icon mt-1"></i>
+                                <p>Systems integration with existing workflows</p>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle check-icon mt-1"></i>
+                                <p>Testing & quality assurance</p>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle check-icon mt-1"></i>
+                                <p>Post-deployment optimization</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Training Card -->
+                <div class="relative" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-card p-8 relative z-10 h-full flex flex-col">
+                        <div class="card-bg" style="background-image: url('/api/placeholder/600/800')"></div>
+                        <h3 class="text-2xl font-bold mb-2 text-secondary">Training</h3>
+                        <p class="text-gray-300 mb-6">Empowering your team to maximize new technology</p>
+                        <div class="space-y-3 mb-8 flex-grow">
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle check-icon mt-1"></i>
+                                <p>Operator training programs</p>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle check-icon mt-1"></i>
+                                <p>Management oversight training</p>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle check-icon mt-1"></i>
+                                <p>Customized documentation & guides</p>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle check-icon mt-1"></i>
+                                <p>Ongoing technical support</p>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle check-icon mt-1"></i>
+                                <p>Knowledge transfer workshops</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-16" data-aos="fade-up">
+                <p class="text-lg text-gray-300 mb-6">
+                    Contact us for a personalized quote tailored to your business needs
+                </p>
+                <a href="#contact" class="btn-primary">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-6 gradient-bg">
+        <div class="container mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl font-bold mb-3">Get In <span class="text-secondary glow">Touch</span></h2>
+                <div class="w-24 h-1 bg-secondary mx-auto mb-8 rounded-full"></div>
+                <p class="text-lg text-gray-300 max-w-xl mx-auto">
+                    Ready to transform your business with advanced robotics and AI solutions? Reach out to our team today.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+                <!-- Contact Form -->
+                <div data-aos="fade-right">
+                    <form id="contact-form" class="space-y-6">
+                        <div>
+                            <label for="name" class="block mb-2 text-gray-300">Full Name</label>
+                            <input type="text" id="name" class="form-input w-full" placeholder="Your name" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block mb-2 text-gray-300">Email Address</label>
+                            <input type="email" id="email" class="form-input w-full" placeholder="Your email" required>
+                        </div>
+                        <div>
+                            <label for="message" class="block mb-2 text-gray-300">Message</label>
+                            <textarea id="message" rows="5" class="form-input w-full" placeholder="Tell us about your project" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full">Send Message</button>
+                    </form>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="flex flex-col justify-center" data-aos="fade-left">
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-bold mb-4">Contact Information</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 rounded-full bg-secondary bg-opacity-20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-envelope text-secondary"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">Email</p>
+                                    <p class="text-white">nitincodehive@gmail.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 rounded-full bg-secondary bg-opacity-20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-map-marker-alt text-secondary"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">Location</p>
+                                    <p class="text-white">Global remote services</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 rounded-full bg-secondary bg-opacity-20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-headset text-secondary"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">Support</p>
+                                    <p class="text-white">24/7 Technical Assistance</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 px-6 bg-black">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <p class="text-gray-400">© 2025 CD-RAM. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="social-icon">
+                        <i class="fab fa-linkedin-in text-white"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <i class="fab fa-twitter text-white"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <i class="fab fa-facebook-f text-white"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <i class="fab fa-instagram text-white"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS animations
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Mobile menu functionality
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeMenuButton = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const navHeight = document.querySelector('nav').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Form submission handling
+        const contactForm = document.getElementById('contact-form');
+        
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            // Here you would normally send the data to a server
+            // For demo purposes, we'll just show an alert
+            alert(`Thank you, ${name}! Your message has been received. We'll contact you at ${email} shortly.`);
+            
+            // Reset form
+            contactForm.reset();
+        });
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            
+            // Simple parallax effect on hero section
+            hero.style.backgroundPosition = `center ${scrollPosition * 0.5}px`;
+        });
+    </script>
+</body>
+</html>
